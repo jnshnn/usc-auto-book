@@ -27,7 +27,6 @@ def login(email, password):
 
 def findDate(loc = "east61", date=None, eventTitle = "Community-Beachvolleyballtreff"):
 	if(date == None):
-		# TODO: change
 		date = datetime.today() + timedelta(weeks=2)
 
 	strDate = date.strftime('%Y-%m-%d')
