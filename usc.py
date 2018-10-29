@@ -9,7 +9,7 @@ def login(email, password):
 	print("GET: %s" % (requestURL))
 	r = requests.get(requestURL)
 
-	parsed_html = BeautifulSoup(r.text)
+	parsed_html = BeautifulSoup(r.text, features="html.parser")
 	hiddenValue = parsed_html.body.find(id="login-form").findAll("input")[0]
 	additional_name = hiddenValue["name"]
 	additional_value = hiddenValue["value"]
@@ -34,7 +34,7 @@ def findDate(loc = "east61", date=None, eventTitle = "Community-Beachvolleyballt
 	print("GET: %s" % (requestURL))
 	r = requests.get(requestURL)
 
-	parsed_html = BeautifulSoup(r.text)
+	parsed_html = BeautifulSoup(r.text, features="html.parser")
 	appointmentIds = parsed_html.body.findAll("div", {"data-appointment-id": re.compile(r"[0-9]+")})
 	appointmentIds = [ int(div["data-appointment-id"]) for div in appointmentIds]
 
@@ -44,7 +44,7 @@ def findDate(loc = "east61", date=None, eventTitle = "Community-Beachvolleyballt
 		requestURL = 'https://urbansportsclub.com/en/class-details/%d' % (appointmentId)
 		print("GET: %s" % (requestURL))
 		r = requests.get(requestURL)
-		parsed_html = BeautifulSoup(r.text)
+		parsed_html = BeautifulSoup(r.text, features="html.parser")
 
 		if(parsed_html.find("h3").text == eventTitle):
 			return appointmentId 
