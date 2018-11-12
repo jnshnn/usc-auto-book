@@ -49,17 +49,17 @@ The following line:
 ```
 SHELL=/bin/bash
 
-0 0 * * TUE,FRI   source $HOME/usc-auto-book/venv/bin/activate && $HOME/usc-auto-book/uscApiTool.py
+0 7 * * TUE,FRI   source $HOME/usc-auto-book/venv/bin/activate && $HOME/usc-auto-book/uscApiTool.py
 
 ```
 
-Will execute the script provided as the last argument every tuesday and friday at midnight.
-See a explanation on the syntax [here](https://crontab.guru/#0_0_*_*_TUE,FRI). Replace the path with the path where this repo is cloned.
+Will execute the script provided as the last argument every tuesday and friday at 7:00 am.
+See a explanation on the syntax [here](https://crontab.guru/#0_7_*_*_TUE,FRI). Replace the path with the path where this repo is cloned.
 
 If you want to receive a mail with the script output create the following job and replace `you@yourmail.com` with your mail address:
 
 ```
 SHELL=/bin/bash
 
-0 0 * * TUE,FRI   source $HOME/usc-auto-book/venv/bin/activate && $HOME/usc-auto-book/uscApiTool.py 2>&1 | mail -s "usc auto book -- cron job update" you@yourmail.com
+0 7 * * TUE,FRI   source $HOME/usc-auto-book/venv/bin/activate && $HOME/usc-auto-book/uscApiTool.py 2>&1 | mail -s "usc auto book -- cron job update" you@yourmail.com
 ```
