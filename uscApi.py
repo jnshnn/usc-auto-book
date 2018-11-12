@@ -5,6 +5,10 @@ import re
 import configparser
 
 def loadConfig(conifg_name = 'usc_api.config'):
+	"""
+	Load the configuration file from the given path.
+	"""
+
 	config = configparser.ConfigParser()
 	config.readfp(open(conifg_name))
 	return {
@@ -25,6 +29,11 @@ def loadConfig(conifg_name = 'usc_api.config'):
 	}
 
 def login(config):
+	"""
+	Login with the given credentials. 
+	Retrieve a bearer token that will be needed on booking a class.
+	"""
+
 	requestURL = config['baseURL'] + '/auth/token'
 
 	data = {
@@ -44,6 +53,19 @@ def login(config):
 
 
 def findDate(config, venueId = 1041, date=None):
+	"""
+	Find a class on the given date. 
+	Returns the first class found on that day. 
+	No authorization is needed here. 
+	Periodic request can be obfuscated.
+
+	venueId: defines the id of the venue that shell be choosen. 
+			 VenueIds need to be accessed via the API. 
+			 Venue ids of web an api do not match.
+
+	date: 	 If no date is given the date in 2 week will be taken. 
+
+	"""
 	if(date == None):
 		date = datetime.today() + timedelta(weeks=2)
 
@@ -65,6 +87,9 @@ def findDate(config, venueId = 1041, date=None):
 		return first_class['id']
 
 def bookEvent(classId, bearer, config):
+	"""
+	Book the given class. 
+	"""
 	requestURL = config['baseURL'] + '/bookings'
 	print("POST: %s" % (requestURL))
 

@@ -1,6 +1,7 @@
 # USC automatically book appointments
 
 This script helps the user to book automatically appointsments by urban sports club. 
+It might also help iOS or web user to book classes in advance and enjoy the same adventages as the android users.
 
 ## Disclaimer
 Use on own risk. The author is not responsible in for any damage made to your account or to USC. 
