@@ -47,7 +47,9 @@ This will add a new cron job as your current user.
 The following line:
 
 ```
-0 0 * * TUE,FRI   $HOME/usc-auto-book/uscApiTool.py
+SHELL=/bin/sh
+
+0 0 * * TUE,FRI   source $HOME/usc-auto-book/venv/bin/activate && $HOME/usc-auto-book/uscApiTool.py
 ```
 
 Will execute the script provided as the last argument every tuesday and friday at midnight.
