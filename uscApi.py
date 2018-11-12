@@ -14,7 +14,7 @@ def loadConfig(conifg_name = 'usc_api.config'):
 	return {
 		'email': 		config.get('Credentials', 'email'),
 		'password': 	config.get('Credentials', 'password'),
-		'clinetSecret': config.get('Client', 'secret'),
+		'clientSecret': config.get('Client', 'secret'),
 		'clientId': 	config.get('Client', 'id'),
 		'spoofHeader':  config.get('Client', 'spoofHeader').lower() == 'true',
 		'baseURL': 		config.get('API', 'baseURL'),
@@ -39,7 +39,7 @@ def login(config):
 	data = {
 		'username': config['email'],
 		'password': config['password'],
-		'client_secret': config['clinetSecret'],
+		'client_secret': config['clientSecret'],
 		'client_id': config['clientId'],
 		'grant_type': 'password'
 	}
