@@ -23,3 +23,31 @@ Install the requirements with pip3.
 pip3 install -r requirements.txt
 ``` 
 
+## Configure
+
+Edit the `usc_api.config` file for your credentials in the `[Credentials]` section. 
+
+```
+[Credentials]
+	# replace with your email
+	email = usc@example.com
+	# replace with your password
+	password = uscpassword1
+```
+
+## Defining a cron job
+
+To add or update a cron job tip:
+```bash
+crontab -e
+```
+
+This will add a new cron job as your current user. 
+The following line:
+
+```
+0 0 * * TUE,FRI   $HOME/usc-auto-book/uscApiTool.py
+```
+
+Will execute the script provided as the last argument every tuesday and friday at midnight.
+See a explanation on the syntax [here](https://crontab.guru/#0_0_*_*_TUE,FRI).
