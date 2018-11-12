@@ -47,7 +47,7 @@ This will add a new cron job as your current user.
 The following line:
 
 ```
-SHELL=/bin/sh
+SHELL=/bin/bash
 
 0 0 * * TUE,FRI   source $HOME/usc-auto-book/venv/bin/activate && $HOME/usc-auto-book/uscApiTool.py
 
@@ -59,7 +59,7 @@ See a explanation on the syntax [here](https://crontab.guru/#0_0_*_*_TUE,FRI). R
 If you want to receive a mail with the script output create the following job and replace `you@yourmail.com` with your mail address:
 
 ```
-SHELL=/bin/sh
+SHELL=/bin/bash
 
 0 0 * * TUE,FRI   source $HOME/usc-auto-book/venv/bin/activate && $HOME/usc-auto-book/uscApiTool.py 2>&1 | mail -s "usc auto book -- cron job update" you@yourmail.com
 ```
