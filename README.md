@@ -49,7 +49,7 @@ The following line:
 ```
 SHELL=/bin/bash
 
-0 7 * * TUE,FRI   source $HOME/usc-auto-book/venv/bin/activate && $HOME/usc-auto-book/uscApiTool.py
+0 7 * * TUE,FRI   cd $HOME/usc-auto-book && source ./venv/bin/activate && ./uscApiTool.py
 
 ```
 
@@ -61,5 +61,5 @@ If you want to receive a mail with the script output create the following job an
 ```
 SHELL=/bin/bash
 
-0 7 * * TUE,FRI   source $HOME/usc-auto-book/venv/bin/activate && $HOME/usc-auto-book/uscApiTool.py 2>&1 | mail -s "usc auto book -- cron job update" you@yourmail.com
+0 7 * * TUE,FRI   cd $HOME/usc-auto-book && source ./venv/bin/activate && ./uscApiTool.py 2>&1 | mail -s "usc auto book -- cron job update" you@yourmail.com
 ```
