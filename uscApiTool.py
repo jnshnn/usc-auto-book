@@ -10,7 +10,7 @@ i = 0
 # each 30 minutes
 timeToWait = 30 * 60
 
-while i < 17 * 2: # run for 17h each 30 minutes
+while i < 24 * 2: # run for 24h each 30 minutes
 	print("[main] Tying to find class at %s" % (str(datetime.datetime.now())))
 	classId = usc.findDate(config)
 	if classId is not None:
