@@ -11,7 +11,7 @@ i = 0
 timeToWait = 30 * 60
 
 while i < 24 * 2: # run for 24h each 30 minutes
-	print("[main] Tying to find class at %s" % (str(datetime.datetime.now())))
+	print("[main] Tying to find class at %s" % (str(datetime.now())))
 
 	# when running longer then 24h we need to persist the date
 	targetDate = datetime.today() + timedelta(weeks=2)
