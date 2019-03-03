@@ -2,7 +2,7 @@
 
 import uscApi as usc
 import time
-import datetime
+from datetime import datetime, timedelta
 
 config = usc.loadConfig()
 classId = None
