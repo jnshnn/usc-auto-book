@@ -16,15 +16,11 @@ def loadConfig(conifg_name = 'usc_api.config'):
 		'password': 	config.get('Credentials', 'password'),
 		'clientSecret': config.get('Client', 'secret'),
 		'clientId': 	config.get('Client', 'id'),
-		'spoofHeader':  config.get('Client', 'spoofHeader').lower() == 'true',
 		'baseURL': 		config.get('API', 'baseURL'),
-		'fakeHeader': {
-			'accept-encoding': 		config.get('FakeHeader', 'accept-encoding'),
-			'user-agent': 			config.get('FakeHeader', 'user-agent'),
-			'accept-language': 		config.get('FakeHeader', 'accept-language'),
-			'device-type': 			config.get('FakeHeader', 'device-type'),
-			'device-model': 		config.get('FakeHeader', 'device-model'),
-			'application-version': 	config.get('FakeHeader', 'application-version'),
+		'headers': {
+			'accept-encoding': 		config.get('Headers', 'accept-encoding'),
+			'user-agent': 			config.get('Headers', 'user-agent'),
+			'accept-language': 		config.get('Headers', 'accept-language'),
 		}
 	}
 
@@ -52,7 +48,11 @@ def login(config):
 	return r.json()['data']['access_token']
 
 
-def findDate(config, venueId = 1041, date=None):
+def is_bookable(course):
+	return course['bookable'] != 0 and course['freeSpots'] != 0
+
+
+def findClass(config, locationId = 15238, date=None):
 	"""
 	Find a class on the given date. 
 	Returns the first class found on that day. 
@@ -70,21 +70,22 @@ def findDate(config, venueId = 1041, date=None):
 		date = datetime.today() + timedelta(weeks=2)
 
 	strDate = date.strftime('%Y-%m-%d')
-	requestURL = '%s/courses?locationId=%d&startDate=%s' % (config['baseURL'], venueId, strDate)
-	if config['spoofHeader'] == True:
-		print("GET (using spoof headers): %s" % (requestURL))
-		r = requests.get(requestURL, headers=config['fakeHeader'])
-	else:
-		print("GET: %s" % (requestURL))
-		r = requests.get(requestURL)
+
+	requestURL = '%s/courses?courses?forDurationOfDays=1&query=&pageSize=100&page=1&locationId=%d&startDate=%s' % (config['baseURL'], locationId, strDate)
+	print("GET: %s" % (requestURL))
+	r = requests.get(requestURL, headers=config['headers'])
 
 	data = r.json()['data']
 	if(not data['classes']):
 		print("Cloud not find any class on the given date date (%s) (status code = %d)." % (strDate, r.status_code))
+		return
+	first_class = data['classes'][0]
+	if is_bookable(first_class):
+                print("Returning id %d of class %s on %s." % (first_class['id'], first_class['title'], first_class['startDateTimeUTC']))
+                return first_class['id']
 	else:
-		first_class = data['classes'][0]
-		print("Returning id %d of class %s on %s." % (first_class['id'], first_class['title'], first_class['startDateTimeUTC']))
-		return first_class['id']
+		print("Course not bookable. Spots (%d/%d) {deleted: %s, bookable: %d, booking: %s}" % (first_class['maximumNumber'] - first_class['freeSpots'], first_class['maximumNumber'], first_class['deleted'], first_class['bookable'], first_class['booking']))
+
 
 def bookEvent(classId, bearer, config):
 	"""
@@ -97,9 +98,8 @@ def bookEvent(classId, bearer, config):
 		'courseId': classId,
 	}
 
-	header = {
-		'authorization': 'Bearer ' + bearer
-	}
+	header = config['headers']
+	header['authorization'] = 'Bearer ' + bearer
 
 	r = requests.post(requestURL, data=data, headers=header)
 
