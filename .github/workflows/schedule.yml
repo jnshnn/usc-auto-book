@@ -1,0 +1,33 @@
+name: Auto Book Script
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'  # Every Monday at 9:00 AM UTC
+  workflow_dispatch:       # Allows manual triggering of the workflow.
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Create credentials file
+      run: |
+        echo "[Credentials]" > credentials.ini
+        echo "email = ${{ secrets.EMAIL }}" >> credentials.ini
+        echo "password = ${{ secrets.PASSWORD }}" >> credentials.ini
+
+    - name: Run the booking script
+      run: |
+        python main.py
